@@ -1,7 +1,10 @@
 package com.tiandh.pojo;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+@Component
 public class User {
     private Integer id;
 
@@ -119,4 +122,5 @@ public class User {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
 }

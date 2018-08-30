@@ -66,6 +66,27 @@
       <version>1.2.2</version>
     </dependency>
 
+    <!--jackson-->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.12</version>
+    </dependency>
+
+    <!--LoadingCache-->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>20.0</version>
+    </dependency>
+
+    <!--StringUtils-->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
+    </dependency>
+
     <!--mysql-->
     <dependency>
       <groupId>mysql</groupId>
@@ -100,7 +121,6 @@
       <artifactId>mybatis-generator-core</artifactId>
       <version>1.3.5</version>
     </dependency>
-
 
     <!--spring-->
     <dependency>
@@ -224,7 +244,26 @@
           </dependency>
         </dependencies>
       </plugin>
-
     </plugins>
+
+    <!--防止漏掉xxxMapper.xml文件、xxx.properies-->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
   </build>
 </project>
