@@ -206,4 +206,14 @@ public class UserService implements IUserService {
             user.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
             return ServerResponse.createBySuccess(user);
     }
+
+    //*********************backend****************************
+    //校验用户身份是否为管理员
+    @Override
+    public ServerResponse checkAdminRole(User user) {
+        if(user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
 }
