@@ -95,6 +95,14 @@
       <version>3.5</version>
     </dependency>
 
+    <!-- commons-collections4 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.2</version>
+    </dependency>
+
+
     <!--joda-time -->
     <dependency>
       <groupId>joda-time</groupId>
