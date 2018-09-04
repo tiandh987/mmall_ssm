@@ -3,7 +3,7 @@
 <body>
     <h2>Hello World!</h2>
 
-    <h2>sprongmvc上传文件</h2>
+    <h2>springmvc上传文件</h2>
     <form action="/manage/product/upload.do" enctype="multipart/form-data" method="post">
         <input type="file" name="upload_file"/>
         <input type="submit" value="上传文件">
