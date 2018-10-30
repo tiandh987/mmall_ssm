@@ -3,8 +3,7 @@ package com.tiandh.service.impl;
 import com.google.common.collect.Lists;
 import com.tiandh.service.IFileService;
 import com.tiandh.util.FTPUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +12,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class FileService implements IFileService {
 
-    private Logger logger = LoggerFactory.getLogger(FileService.class);
+//    private Logger logger = LoggerFactory.getLogger(FileService.class);
 
     @Override
     public String upload(MultipartFile file, String path) {
@@ -25,7 +25,7 @@ public class FileService implements IFileService {
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
         //长传后的文件名
         String uploadFileName = UUID.randomUUID().toString() + "." + fileExtensionName;
-        logger.info("开始上传文件，上传文件的文件名：{}，上传的路径是：{}，新文件名是：{}",fileName,path,uploadFileName);
+        log.info("开始上传文件，上传文件的文件名：{}，上传的路径是：{}，新文件名是：{}",fileName,path,uploadFileName);
 
         //创建上传文件夹
         File fileDir = new File(path);
@@ -48,7 +48,7 @@ public class FileService implements IFileService {
             //上传完之后，删除upload下面的文件
             targetFile.delete();
         } catch (IOException e) {
-            logger.error("上传文件异常",e);
+            log.error("上传文件异常",e);
             return null;
         }
         return targetFile.getName();

@@ -87,7 +87,7 @@ public class UserService implements IUserService {
             if (Const.EMAIL.equals(type)) {
                 int resultCount = userMapper.checkEmail(str);
                 if(resultCount > 0){
-                    return ServerResponse.createByErrorMessage("email已存在");
+                    return ServerResponse.createByErrorMessage("email已被使用");
                 }
             }
         }else {
@@ -184,7 +184,7 @@ public class UserService implements IUserService {
         User updateUser = new User();
         updateUser.setId(user.getId());
         updateUser.setEmail(user.getEmail());
-        updateUser.setPassword(user.getPhone());
+        updateUser.setPhone(user.getPhone());
         updateUser.setQuestion(user.getQuestion());
         updateUser.setAnswer(user.getAnswer());
 

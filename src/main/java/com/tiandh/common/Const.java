@@ -8,16 +8,20 @@ import java.util.Set;
  * 常量类
  */
 public class Const {
-
+    //
     public static final String CURRENT_USER = "currentUser";
 
+    //
     public static final String EMAIL = "email";
+    //
     public static final String USERNAME = "username";
 
+    //
     public interface ProductListOrderBy{
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
     }
 
+    //
     public interface Cart{
         int CHECKED = 1;//选中状态
         int UN_CHECKED = 0;//未选中状态
@@ -26,11 +30,13 @@ public class Const {
         String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
     }
 
+    //
     public interface Role{
         int ROLE_CUSTOMER = 0;//普通用户
         int ROLE_ADMIN = 1;//管理员
     }
 
+    //产品状态
     public enum ProductStatusEnum{
         ON_SALE(1,"在售");
 
@@ -51,6 +57,7 @@ public class Const {
         }
     }
 
+    //订单状态
     public enum OrderStatus{
         CANCELED(0,"已取消"),
         NO_PAY(10,"未支付"),
@@ -74,8 +81,18 @@ public class Const {
         public String getValue() {
             return value;
         }
+
+        public static OrderStatus codeOf(int code){
+            for (OrderStatus orderStatus : values()){
+                if (orderStatus.getCode() == code){
+                    return orderStatus;
+                }
+            }
+            throw new RuntimeException("没有找到对应的枚举");
+        }
     }
 
+    //
     public interface AlipayCallback{
         String TRADE_STATUS_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
         String TRADE_STATUS_TRADE_SUCCESS = "TRADE_SUCCESS";
@@ -84,6 +101,7 @@ public class Const {
         String RESPONSE_FAILED = "failed";
     }
 
+    //支付平台
     public enum PayPlatform{
         ALIPAY(1,"支付宝")
         ;
@@ -102,6 +120,37 @@ public class Const {
 
         public String getValue() {
             return value;
+        }
+    }
+
+    //支付类型
+    public enum PaymentType{
+        ONLINE_PAY(1,"在线支付")
+        ;
+
+        private Integer code;
+        private String value;
+
+        PaymentType(Integer code,String value){
+            this.code = code;
+            this.value = value;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public static PaymentType codeOf(Integer code){
+            for (PaymentType paymentType : values()){
+                if (paymentType.getCode() == code){
+                    return paymentType;
+                }
+            }
+            throw new RuntimeException("没有找到对应的枚举");
         }
     }
 }
