@@ -5,6 +5,8 @@ import com.tiandh.common.ResponseCode;
 import com.tiandh.common.ServerResponse;
 import com.tiandh.pojo.User;
 import com.tiandh.service.IUserService;
+import com.tiandh.util.JsonUtil;
+import com.tiandh.util.RedisPoolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,9 @@ public class UserController {
     public ServerResponse<User> login(String username, String password, HttpSession session){
         ServerResponse<User> response = userService.login(username, password);
         if (response.isSuccess()){
-            session.setAttribute(Const.CURRENT_USER,response.getData());
+            //session.setAttribute(Const.CURRENT_USER,response.getData());
+            //修改，将登陆信息保存在Redis中
+            RedisPoolUtil.setex(session.getId(), Const.RedisCacheExTime.REDIS_SESSION_EXTIME, JsonUtil.objectToString(response.getData()));
         }
         return response;
     }

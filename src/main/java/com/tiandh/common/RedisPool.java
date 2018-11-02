@@ -31,7 +31,7 @@ public class RedisPool {
     //redis.port
     private static Integer redisPort = Integer.parseInt(PropertiesUtil.getProperty("redis.port"));
 
-    //初始化连接池
+    //初始化Redis连接池，该方法只会被调用一次（通过静态代码块调用）
     private static void initPool(){
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(maxTotal);
@@ -39,23 +39,29 @@ public class RedisPool {
         config.setMinIdle(minIdle);
         config.setTestOnBorrow(testOnBorrow);
         config.setTestOnReturn(testOnReturn);
-        //当连接耗尽时，是否阻塞，true阻塞指导超时，false会抛出异常。默认为true
+        //当连接耗尽时，是否阻塞，true阻塞直到超时，false会抛出异常。默认为true
         config.setBlockWhenExhausted(true);
 
+        //初始化JedisPool, 超时时间：1000*2 单位为毫秒
         pool = new JedisPool(config, redisHost, redisPort, 1000*2);
     }
 
+    //当类被加载时，调用Redis连接池初始化方法
     static {
         initPool();
     }
 
+    //从连接池中返回一个Jedis实例
     public static Jedis getJedis(){
         return pool.getResource();
     }
 
+    //将Jedis放回连接池中
     public static void returnResource(Jedis jedis){
         pool.returnResource(jedis);
     }
+
+    //将损坏的连接放入BrokenResource
     public static void returnBrokenResource(Jedis jedis){
         pool.returnBrokenResource(jedis);
     }

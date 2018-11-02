@@ -11,6 +11,11 @@ public class Const {
     //
     public static final String CURRENT_USER = "currentUser";
 
+    //Redis存储session信息有效时间
+    public interface RedisCacheExTime {
+        int REDIS_SESSION_EXTIME = 60 * 30; //30分钟
+    }
+
     //
     public static final String EMAIL = "email";
     //
