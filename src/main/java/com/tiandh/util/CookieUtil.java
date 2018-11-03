@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class CookieUtil {
 
-    private final static String COOKIE_DOMAIN = ".happymmall.com";
+    //private final static String COOKIE_DOMAIN = ".happymmall.com";
+    private final static String COOKIE_DOMAIN = "192.168.1.61";
     private final static String COOKIE_NAME = "mmall_login_token";
 
     /**
@@ -26,7 +27,7 @@ public class CookieUtil {
     public static void writeLoginToken(HttpServletResponse response, String token) {
         //创建Cookie，并设置Cookie的name与value
         Cookie ck = new Cookie(COOKIE_NAME, token);
-        //设置domain
+        //设置domain，（本地开发默认为localhost）
         ck.setDomain(COOKIE_DOMAIN);
         //设置路径为根目录
         ck.setPath("/");

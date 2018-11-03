@@ -39,10 +39,10 @@ public class UserController {
         ServerResponse<User> response = userService.login(username, password);
         if (response.isSuccess()){
             //session.setAttribute(Const.CURRENT_USER,response.getData());
-            //修改，向客户端写Cookie
-            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
             //修改，将登陆信息保存在Redis中
             RedisPoolUtil.setex(session.getId(), Const.RedisCacheExTime.REDIS_SESSION_EXTIME, JsonUtil.objectToString(response.getData()));
+            //修改，向客户端写Cookie
+            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
         }
         return response;
     }
