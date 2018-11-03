@@ -2,11 +2,11 @@ package com.tiandh.service.impl;
 
 import com.tiandh.common.Const;
 import com.tiandh.common.ServerResponse;
-import com.tiandh.common.TokenCache;
 import com.tiandh.dao.UserMapper;
 import com.tiandh.pojo.User;
 import com.tiandh.service.IUserService;
 import com.tiandh.util.MD5Util;
+import com.tiandh.util.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -118,7 +118,7 @@ public class UserService implements IUserService {
         if (resultCount > 0){
             //问题及问题答案是该用户的，并且是正确的
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
+            RedisPoolUtil.setex(Const.TOKEN_PREFIX + username, 60*60*12, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题的答案错误");
@@ -138,7 +138,7 @@ public class UserService implements IUserService {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
 
-        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
+        String token = RedisPoolUtil.get(Const.TOKEN_PREFIX + username);
         if (StringUtils.isBlank(token)){
             return ServerResponse.createByErrorMessage("Token无效或过期");
         }
