@@ -5,14 +5,18 @@ import com.tiandh.common.ResponseCode;
 import com.tiandh.common.ServerResponse;
 import com.tiandh.pojo.User;
 import com.tiandh.service.IUserService;
+import com.tiandh.util.CookieUtil;
 import com.tiandh.util.JsonUtil;
 import com.tiandh.util.RedisPoolUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -31,10 +35,12 @@ public class UserController {
      */
     @RequestMapping(value = "login.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession session){
+    public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
         ServerResponse<User> response = userService.login(username, password);
         if (response.isSuccess()){
             //session.setAttribute(Const.CURRENT_USER,response.getData());
+            //修改，向客户端写Cookie
+            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
             //修改，将登陆信息保存在Redis中
             RedisPoolUtil.setex(session.getId(), Const.RedisCacheExTime.REDIS_SESSION_EXTIME, JsonUtil.objectToString(response.getData()));
         }
@@ -44,8 +50,13 @@ public class UserController {
     //登出
     @RequestMapping(value = "logout.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> logout(HttpSession session){
-        session.removeAttribute(Const.CURRENT_USER);
+    public ServerResponse<String> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        //session.removeAttribute(Const.CURRENT_USER);
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        //从客户端删除Cookie
+        CookieUtil.delLoginToken(httpServletRequest, httpServletResponse);
+        //从Redis中删除用户登录信息
+        RedisPoolUtil.del(loginToken);
         return ServerResponse.createBySuccess();
     }
 
@@ -66,8 +77,17 @@ public class UserController {
     //获取用户登录信息
     @RequestMapping(value="get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> getUserInfo(HttpSession session){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse<User> getUserInfo(HttpServletRequest httpServletRequest){
+        //User user = (User) session.getAttribute(Const.CURRENT_USER);
+
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user != null){
             return ServerResponse.createBySuccess(user);
         }
