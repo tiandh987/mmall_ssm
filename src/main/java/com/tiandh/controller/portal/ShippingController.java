@@ -7,12 +7,17 @@ import com.tiandh.common.ServerResponse;
 import com.tiandh.pojo.Shipping;
 import com.tiandh.pojo.User;
 import com.tiandh.service.IShippingService;
+import com.tiandh.util.CookieUtil;
+import com.tiandh.util.JsonUtil;
+import com.tiandh.util.RedisPoolUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -25,8 +30,16 @@ public class ShippingController {
     //新增地址
     @RequestMapping("add.do")
     @ResponseBody
-    public ServerResponse add(HttpSession session, Shipping shipping){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse add(HttpServletRequest httpServletRequest, Shipping shipping){
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -36,8 +49,16 @@ public class ShippingController {
     //删除地址
     @RequestMapping("delete.do")
     @ResponseBody
-    public ServerResponse delete(HttpSession session, Integer shippingId){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse delete(HttpServletRequest httpServletRequest, Integer shippingId){
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -47,8 +68,16 @@ public class ShippingController {
     //更新地址
     @RequestMapping("update.do")
     @ResponseBody
-    public ServerResponse update(HttpSession session, Shipping shipping){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse update(HttpServletRequest httpServletRequest, Shipping shipping){
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -58,8 +87,16 @@ public class ShippingController {
     //获取该用户单个地址
     @RequestMapping("select.do")
     @ResponseBody
-    public ServerResponse select(HttpSession session, Integer shippingId){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+    public ServerResponse select(HttpServletRequest httpServletRequest, Integer shippingId){
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -71,8 +108,16 @@ public class ShippingController {
     @ResponseBody
     public ServerResponse<PageInfo> list(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
-                                         HttpSession session){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+                                         HttpServletRequest httpServletRequest){
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);
+        //从客户端中读取Cookie
+        String loginToken = CookieUtil.readLoginCookie(httpServletRequest);
+        if (StringUtils.isEmpty(loginToken)) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //从redis中获取User的json字符串
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
