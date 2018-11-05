@@ -1,6 +1,5 @@
 package com.tiandh.controller.backend;
 
-import com.tiandh.common.Const;
 import com.tiandh.common.ResponseCode;
 import com.tiandh.common.ServerResponse;
 import com.tiandh.pojo.User;
@@ -8,7 +7,7 @@ import com.tiandh.service.ICategoryService;
 import com.tiandh.service.IUserService;
 import com.tiandh.util.CookieUtil;
 import com.tiandh.util.JsonUtil;
-import com.tiandh.util.RedisPoolUtil;
+import com.tiandh.util.RedisShardedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/manage/category/")
@@ -41,7 +39,7 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         //从redis中获取User的json字符串
-        String userJsonStr = RedisPoolUtil.get(loginToken);
+        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
         User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录的，请登录");
@@ -66,7 +64,7 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         //从redis中获取User的json字符串
-        String userJsonStr = RedisPoolUtil.get(loginToken);
+        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
         User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录的，请登录");
@@ -91,7 +89,7 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         //从redis中获取User的json字符串
-        String userJsonStr = RedisPoolUtil.get(loginToken);
+        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
         User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录的，请登录");
@@ -116,7 +114,7 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         //从redis中获取User的json字符串
-        String userJsonStr = RedisPoolUtil.get(loginToken);
+        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
         User user = JsonUtil.stringToObject(userJsonStr, User.class);
         if (user == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录的，请登录");

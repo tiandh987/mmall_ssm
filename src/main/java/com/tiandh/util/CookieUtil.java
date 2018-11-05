@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Auther: lenovo
  * @Date: 2018/11/2 19:24
- * @Description:
+ * @Description: CookieUtil工具类
  */
 @Slf4j
 public class CookieUtil {
