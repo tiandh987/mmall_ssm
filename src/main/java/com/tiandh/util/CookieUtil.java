@@ -28,7 +28,7 @@ public class CookieUtil {
         //创建Cookie，并设置Cookie的name与value
         Cookie ck = new Cookie(COOKIE_NAME, token);
         //设置domain，（本地开发默认为localhost）
-        ck.setDomain(COOKIE_DOMAIN);
+//        ck.setDomain(COOKIE_DOMAIN);
         //设置路径为根目录
         ck.setPath("/");
         //不允许通过脚本访问cookie信息

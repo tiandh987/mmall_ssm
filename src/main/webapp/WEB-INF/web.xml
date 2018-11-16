@@ -71,7 +71,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-    <!--二期新增 start-->
+    <!--架构改进新增 start-->
     <!--请求拦截器，重置session有效时间-->
     <filter>
         <filter-name>sessionExpireFilter</filter-name>
@@ -91,7 +91,7 @@
         <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
         <!--<url-pattern>*.do</url-pattern>-->
     <!--</filter-mapping>-->
-    <!--二期新增 end-->
+    <!--架构改进新增 end-->
 
   <!--配置spring-->
   <listener>
@@ -114,7 +114,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>springMVC</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <!--欢迎页-->

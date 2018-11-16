@@ -272,6 +272,21 @@
 
     <!--********************************二期架构演进************************************-->
 
+      <!--Redission + jackson-dataformat-avro-->
+      <dependency>
+          <groupId>org.redisson</groupId>
+          <artifactId>redisson</artifactId>
+          <version>2.9.0</version>
+      </dependency>
+
+      <!-- jackson-dataformat-avro -->
+      <dependency>
+          <groupId>com.fasterxml.jackson.dataformat</groupId>
+          <artifactId>jackson-dataformat-avro</artifactId>
+          <version>2.9.0</version>
+      </dependency>
+
+
       <!--jackson JsonUtil-->
       <dependency>
           <groupId>org.codehaus.jackson</groupId>
@@ -408,7 +423,7 @@
 
       <!--Maven环境隔离配置-->
       <resource>
-        <directory>src/main/resources/resources.${deploy.type}</directory>
+        <directory>src/main/resources.dev</directory>
         <excludes>
           <exclude>*.jsp</exclude>
         </excludes>

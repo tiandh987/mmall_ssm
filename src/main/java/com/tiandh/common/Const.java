@@ -160,4 +160,9 @@ public class Const {
             throw new RuntimeException("没有找到对应的枚举");
         }
     }
+
+    //定时关单 分布式锁
+    public interface REDIS_LOCK{
+        String CLOSE_ORDER_TASK_LOCK = "CLOSE_ORDER_TASK_LOCK";
+    }
 }

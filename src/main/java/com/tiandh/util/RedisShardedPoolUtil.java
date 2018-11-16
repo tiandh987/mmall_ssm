@@ -4,6 +4,7 @@ import com.tiandh.common.RedisShardedPool;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 /**
  * @Auther: lenovo
@@ -36,7 +37,7 @@ public class RedisShardedPoolUtil {
     }
 
     /**
-     * 封装Redis API setnx
+     * 封装Redis API setex
      * @param key
      * @param exTime 单位：秒
      * @param value
@@ -59,6 +60,28 @@ public class RedisShardedPoolUtil {
     }
 
     /**
+     * 封装Redis setnx
+     * @param key
+     * @param value
+     * @return
+     */
+    public static Long setnx(String key, String value) {
+        ShardedJedis jedis = null;
+        Long result = null;
+
+        try {
+            jedis = RedisShardedPool.getJedis();
+            result = jedis.setnx(key, value);
+        } catch (Exception e) {
+            log.error("setnx key:{} value:{} error",key,value,e);
+            RedisShardedPool.returnBrokenResource(jedis);
+            return result;
+        }
+        RedisShardedPool.returnResource(jedis);
+        return result;
+    }
+
+    /**
      * 封装Redis API get
      * @param key
      * @return
@@ -72,6 +95,28 @@ public class RedisShardedPoolUtil {
             result = jedis.get(key);
         } catch (Exception e) {
             log.error("get key:{} error",key,e);
+            RedisShardedPool.returnBrokenResource(jedis);
+            return result;
+        }
+        RedisShardedPool.returnResource(jedis);
+        return result;
+    }
+
+    /**
+     * 封装Redis API getSet
+     * @param key
+     * @param value
+     * @return
+     */
+    public static String getSet(String key, String value){
+        ShardedJedis jedis = null;
+        String result = null;
+
+        try {
+            jedis = RedisShardedPool.getJedis();
+            result = jedis.getSet(key, value);
+        } catch (Exception e) {
+            log.error("getSet key：{}, value：{} error", key, value, e);
             RedisShardedPool.returnBrokenResource(jedis);
             return result;
         }
