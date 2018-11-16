@@ -135,10 +135,13 @@ public class CloseOrderTask {
         try {
             /**
              * waitTime : 尝试获取锁等待时间
+             *      waitTime坑：当业务的处理时间小于waitTime时，会出现一个进程获取锁且处理完业务然后释放锁，
+             *                  而另一个进程还在waitTime时间内进而可以获取锁的情况。
+             *                  所以，将一般将waitTime设置为0。
              * leaseTime ： 锁的释放时间
              * unit ：时间单位
              */
-            if (getLock = lock.tryLock(2, 5, TimeUnit.SECONDS)){
+            if (getLock = lock.tryLock(0, 5, TimeUnit.SECONDS)){
                 log.info("Redisson获取分布式锁：{}，ThreadName：{}", Const.REDIS_LOCK.CLOSE_ORDER_TASK_LOCK, Thread.currentThread().getName());
                 int hour = Integer.parseInt(PropertiesUtil.getProperty("close.order.task.time.hour", "2"));
                 iOrderService.closeOrder(hour);//关闭订单
