@@ -86,7 +86,7 @@ public class CloseOrderTask {
     /**
      * 分布式锁，双重防死锁
      */
-    //@Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void closeOrderTaskV3(){
         log.info("关闭订单定时任务启动");
 
@@ -127,7 +127,7 @@ public class CloseOrderTask {
     /**
      * Spring Scheduled  +  Redisson 实现定时任务
      */
-    @Scheduled(cron = "0 */1 * * * ?")
+    //@Scheduled(cron = "0 */1 * * * ?")
     public void closeOrderTaskV4(){
         RLock lock = redissonManager.getRedisson().getLock(Const.REDIS_LOCK.CLOSE_ORDER_TASK_LOCK);
         boolean getLock = false;

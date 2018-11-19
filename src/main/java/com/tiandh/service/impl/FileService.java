@@ -23,7 +23,7 @@ public class FileService implements IFileService {
         String fileName = file.getOriginalFilename();
         //获取上传文件的扩展名
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
-        //长传后的文件名
+        //上传后的文件名
         String uploadFileName = UUID.randomUUID().toString() + "." + fileExtensionName;
         log.info("开始上传文件，上传文件的文件名：{}，上传的路径是：{}，新文件名是：{}",fileName,path,uploadFileName);
 
