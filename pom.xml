@@ -423,7 +423,7 @@
 
       <!--Maven环境隔离配置-->
       <resource>
-        <directory>src/main/resources.dev</directory>
+        <directory>src/main/resources.${deploy.type}</directory>
         <excludes>
           <exclude>*.jsp</exclude>
         </excludes>
