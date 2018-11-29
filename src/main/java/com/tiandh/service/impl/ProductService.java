@@ -237,7 +237,7 @@ public class ProductService implements IProductService {
         productDetailVo.setStock(product.getStock());
 
         //imageHost
-        productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","ftp://192.168.1.61/"));
+        productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","ftp://192.168.43.71:8080/"));
 
         //parentCategoryId
         Category category = categoryMapper.selectByPrimaryKey(product.getCategoryId());
