@@ -121,6 +121,7 @@ public class CartService implements ICartService {
                 cartProductVo.setId(cartItem.getId());
                 cartProductVo.setUserId(cartItem.getUserId());
                 cartProductVo.setProductId(cartItem.getProductId());
+                cartProductVo.setProductChecked(cartItem.getChecked());
 
                 Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
                 if (product != null){
@@ -128,7 +129,6 @@ public class CartService implements ICartService {
                     cartProductVo.setProductName(product.getName());
                     cartProductVo.setProductSubtitle(product.getSubtitle());
                     cartProductVo.setProductStatus(product.getStatus());
-                    cartProductVo.setProductChecked(cartItem.getChecked());
                     cartProductVo.setProductPrice(product.getPrice());
                     cartProductVo.setProductStock(product.getStock());
                     //判断库存
