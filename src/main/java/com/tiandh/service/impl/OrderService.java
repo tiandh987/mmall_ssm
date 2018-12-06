@@ -109,7 +109,8 @@ public class OrderService implements IOrderService {
             return ServerResponse.createByErrorMessage("已支付，无法取消订单");
         }
         Order cancelOrder = new Order();
-        cancelOrder.setId(userId);
+        cancelOrder.setId(order.getId());
+        cancelOrder.setUserId(userId);
         cancelOrder.setStatus(Const.OrderStatus.CANCELED.getCode());
 
         int rowCount = orderMapper.updateByPrimaryKeySelective(cancelOrder);
