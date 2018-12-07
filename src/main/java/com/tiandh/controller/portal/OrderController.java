@@ -72,7 +72,7 @@ public class OrderController {
         return iOrderService.cancel(user.getId(),orderNo);
     }
 
-    //
+    // 获取商品列表
     @RequestMapping("get_order_cart_product.do")
     @ResponseBody
     public ServerResponse getOrderCartProduct(HttpServletRequest httpServletRequest){
@@ -91,7 +91,7 @@ public class OrderController {
         return iOrderService.getOrderCartProduct(user.getId());
     }
 
-    //
+    // 获取某订单详细信息
     @RequestMapping("detail.do")
     @ResponseBody
     public ServerResponse detail(HttpServletRequest httpServletRequest,Long orderNo){
@@ -110,6 +110,7 @@ public class OrderController {
         return iOrderService.getOrderDetail(user.getId(),orderNo);
     }
 
+    // 获取用户账号下的所有订单
     @RequestMapping("list.do")
     @ResponseBody
     public ServerResponse list(HttpServletRequest httpServletRequest,

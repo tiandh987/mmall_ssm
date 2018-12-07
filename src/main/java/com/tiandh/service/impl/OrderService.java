@@ -415,7 +415,7 @@ public class OrderService implements IOrderService {
         String outTradeNo = order.getOrderNo().toString();
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
-        String subject = new StringBuilder().append("mmall商城扫码支付，订单号：").append(outTradeNo).toString();
+        String subject = new StringBuilder().append("商城扫码支付，订单号：").append(outTradeNo).toString();
 
         // (必填) 订单总金额，单位为元，不能超过1亿元
         // 如果同时传入了【打折金额】,【不可打折金额】,【订单总金额】三者,则必须满足如下条件:【订单总金额】=【打折金额】+【不可打折金额】
@@ -553,6 +553,7 @@ public class OrderService implements IOrderService {
             return ServerResponse.createBySuccessMessage("支付宝重复调用");
         }
         if (Const.AlipayCallback.TRADE_STATUS_TRADE_SUCCESS.equals(tradeStatus)){
+            // 订单支付成功，更改订单状态
             order.setPaymentTime(DateTimeUtil.strToDate(params.get("gmt_payment")));
             order.setStatus(Const.OrderStatus.PAID.getCode());
             orderMapper.updateByPrimaryKeySelective(order);
