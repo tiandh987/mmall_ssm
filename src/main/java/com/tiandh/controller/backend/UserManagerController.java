@@ -35,8 +35,8 @@ public class UserManagerController {
                 //用户身份：管理员
                 //session.setAttribute(Const.CURRENT_USER,user);
                 //新增redis共享cookie，session的方式
-                CookieUtil.writeLoginToken(httpServletResponse, session.getId());
                 RedisShardedPoolUtil.setex(session.getId(), Const.RedisCacheExTime.REDIS_SESSION_EXTIME, JsonUtil.objectToString(user));
+                CookieUtil.writeLoginToken(httpServletResponse, session.getId());
                 return response;
             }else {
                 return ServerResponse.createByErrorMessage("不是管理员，无法登陆");
