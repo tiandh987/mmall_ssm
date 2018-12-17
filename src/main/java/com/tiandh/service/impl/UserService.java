@@ -1,5 +1,8 @@
 package com.tiandh.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.tiandh.common.Const;
 import com.tiandh.common.ServerResponse;
 import com.tiandh.dao.UserMapper;
@@ -11,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -215,5 +219,18 @@ public class UserService implements IUserService {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
+    }
+
+    // 管理员获取非管理员用户列表
+    @Override
+    public ServerResponse getUserList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize );
+
+        List<User> userList = userMapper.selectList();
+
+        PageInfo pageResult = new PageInfo(userList);
+        pageResult.setList(userList);
+
+        return  ServerResponse.createBySuccess(pageResult);
     }
 }

@@ -25,4 +25,6 @@ public interface IUserService {
 
     //**********************backend***********************
     ServerResponse checkAdminRole(User user);
+
+    ServerResponse getUserList(int pageNum, int pageSize);
 }

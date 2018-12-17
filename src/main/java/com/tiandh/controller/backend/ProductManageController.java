@@ -123,6 +123,7 @@ public class ProductManageController {
         return iProductService.manageProductDetail(productId);
     }
 
+    //获取商品列表
     @RequestMapping(value = "list.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getList(HttpServletRequest httpServletRequest,
