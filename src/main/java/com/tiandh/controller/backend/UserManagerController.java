@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -48,7 +49,8 @@ public class UserManagerController {
     // 管理员获取非管理员用户列表
     @RequestMapping(value = "getUserList.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getUserList(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+    public ServerResponse getUserList(HttpServletRequest httpServletRequest,
+                                      @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                       @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
         //全部通过拦截器验证，已登录管理员账号
         return userService.getUserList(pageNum, pageSize);
