@@ -8,12 +8,15 @@ import com.tiandh.common.ServerResponse;
 import com.tiandh.dao.UserMapper;
 import com.tiandh.pojo.User;
 import com.tiandh.service.IUserService;
+import com.tiandh.util.DateTimeUtil;
 import com.tiandh.util.MD5Util;
 import com.tiandh.util.RedisShardedPoolUtil;
+import com.tiandh.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -227,9 +230,20 @@ public class UserService implements IUserService {
         PageHelper.startPage(pageNum, pageSize );
 
         List<User> userList = userMapper.selectList();
+        List<UserVo> userVoList = Lists.newArrayList();
+
+        for (User user : userList) {
+            UserVo userVo = new UserVo();
+            userVo.setId(user.getId());
+            userVo.setUsername(user.getUsername());
+            userVo.setPhone(user.getPhone());
+            userVo.setEmail(user.getEmail());
+            userVo.setCreateTime(DateTimeUtil.dateToStr(user.getCreateTime()));
+            userVoList.add(userVo);
+        }
 
         PageInfo pageResult = new PageInfo(userList);
-        pageResult.setList(userList);
+        pageResult.setList(userVoList);
 
         return  ServerResponse.createBySuccess(pageResult);
     }
