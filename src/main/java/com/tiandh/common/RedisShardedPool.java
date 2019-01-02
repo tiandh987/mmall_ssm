@@ -50,8 +50,9 @@ public class RedisShardedPool {
 
         JedisShardInfo info1 = new JedisShardInfo(redis1Host, redis1Port, 1000*2);
         //如果redis有密码，调用此方法
-        //info1.setPassword("password");
+        info1.setPassword("tdhredis6379");
         JedisShardInfo info2 = new JedisShardInfo(redis2Host, redis2Port, 1000*2);
+        info2.setPassword("tdhredis6380");
 
         List<JedisShardInfo> jedisShardInfoList = new ArrayList<>();
         jedisShardInfoList.add(info1);
